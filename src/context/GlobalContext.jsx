@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
 
-const GlobalContext = createContext();
+export const GlobalContext = createContext();
 
 const baseUrl = "https://api.jikan.moe/v4"
 
@@ -10,6 +10,7 @@ const SEARCH = 'SEARCH'
 const GET_POPULAR_ANIME = 'GET_POPULAR_ANIME'
 const GET_UPCOMING_ANIME = 'GET_UPCOMING_ANIME'
 const GET_AIRING_ANIME = 'GET_AIRING_ANIME'
+const WATCHLIST='WATCHLIST'
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -23,6 +24,8 @@ const reducer = (state, action) => {
             return { ...state, upcomingAnime: action.payload, loading: false }
         case GET_AIRING_ANIME:
             return { ...state, airingAnime: action.payload, loading: false }
+            case "ADD_TO_WATCHLIST":
+            return{...state, watchlist : [action.payload, ...state.watchlist],loading:false};
         default:
             return state
     }
@@ -39,6 +42,7 @@ export const GlobalContextProvider = ({ children }) => {
         isSearch: false,
         searchResult: [],
         loading: false,
+        watchlist:[],
     }
 
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -95,6 +99,12 @@ export const GlobalContextProvider = ({ children }) => {
         dispatch({ type: SEARCH, payload: data.data })
     }
 
+    const addToWatchlist = (anime) => {
+        dispatch({ type: "ADD_TO_WATCHLIST", payload: anime });
+      };
+
+
+
 
     useEffect(() => {
         getPopularAnime();
@@ -107,7 +117,7 @@ export const GlobalContextProvider = ({ children }) => {
             searchAnime,
             search,
             getAiringAnime,
-            getPopularAnime, getUpcomingAnime,
+            getPopularAnime, getUpcomingAnime,addToWatchlist
         }}>
             {children}
         </GlobalContext.Provider>

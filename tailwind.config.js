@@ -11,7 +11,10 @@ export default {
       'lg': '1024px',
       'xl': '1280px',
       '2xl': '1536px',
-      'small-phones': '300px'
+      'small-phones': '300px',
+      'miniphones' :'335px',
+      'phones':'550px',
+      'large':'900px',
     },
     extend: {},
   },
