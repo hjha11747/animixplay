@@ -33,11 +33,11 @@ function HomePage() {
 
     return (
         <header >
-            <div className=' mt-0 max-w-full flex justify-between p-4 max-large:px-1  text-black bg-gray-800 sticky top-0 z-20' >
+            <div className=' mt-0 max-w-full flex justify-between p-4 max-large:px-1 max-sm:px-1 text-black bg-gray-800 sticky top-0 z-20' >
                 <div onClick={() => {
                     setRendered('popular');
                     getPopularAnime()
-                }} className=" text-slate-200 text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[17px]">
+                }} className=" text-slate-200 text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[19px]">
                     AnimixWatch
                 </div>
                 <div className=' flex  '>
@@ -60,7 +60,7 @@ function HomePage() {
                     </div>
                     <div className='large:hidden flex sm:gap-48 max-sm:gap-6 text-center' >
                     {open && (
-                            <div className=' max-sm:text-xs max-miniphones:text-[10px] max-md:text-sm'>
+                            <div className=' max-sm:text-base max-miniphones:text-[10px] max-md:text-base'>
                                 <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                                     <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
                                 </div>
