@@ -37,7 +37,7 @@ function HomePage() {
                 <div onClick={() => {
                     setRendered('popular');
                     getPopularAnime()
-                }} className=" text-slate-200 text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[19px]">
+                }} className=" text-slate-200 text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[18px]">
                     AnimixWatch
                 </div>
                 <div className=' flex  '>
@@ -60,7 +60,7 @@ function HomePage() {
                     </div>
                     <div className='large:hidden flex sm:gap-48 max-sm:gap-6 text-center' >
                     {open && (
-                            <div className=' max-sm:text-base max-miniphones:text-[10px] max-md:text-base'>
+                            <div className=' max-sm:text-base max-miniphones:text-[10px] max-md:text-[15px]'>
                                 <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                                     <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
                                 </div>
