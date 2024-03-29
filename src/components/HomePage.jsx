@@ -89,14 +89,14 @@ function HomePage() {
                                 </form>
                             )}
                             <button className=' text-slate-400' onClick={toggleSearchBar}>
-                                <Search className=' absolute top-2 right-12' />
+                                <Search className=' absolute max-small-phones:top-2 top-7 right-12' />
                             </button>
                         </div>
                     </div>
 
                     <div className='text-center'>
                         <div className='large:hidden  max-miniphones:gap-7 max-phones:gap-20 text-center'>
-                            <div className='text-slate-400 absolute top-2 right-3'>
+                            <div className='text-slate-400 absolute max-small-phones:top-2 top-7  right-3'>
                                 <button onClick={toggleNavbar}>{open ? <X /> : <Menu />} </button>
                             </div>
 
