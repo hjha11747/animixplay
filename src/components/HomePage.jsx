@@ -38,7 +38,7 @@ function HomePage() {
                 }} className=" text-slate-200 text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[18px]">
                     AnimixWatch
                 </div>
-                <div className=' flex  '>
+                <div className=' flex mr-2 '>
                     <div className="flex justify-between gap-11 text-cyan-200 font-medium max-xl:gap-7 max-xl:text-base max-[900px]:hidden">
                         <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                             <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
@@ -59,7 +59,7 @@ function HomePage() {
                         </form>
 
                     </div>
-                    <div className='large:hidden flex sm:gap-48 max-sm:gap-3  text-center' >
+                    <div className='large:hidden flex sm:gap-40 max-sm:gap-3  text-center' >
                         {open && (
                             <div className=' max-sm:text-base max-miniphones:text-[10px] max-md:text-[15px]'>
                                 <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
