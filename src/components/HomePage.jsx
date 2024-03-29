@@ -31,7 +31,7 @@ function HomePage() {
 
     return (
         <header >
-            <div className=' mt-0 max-w-full flex justify-between p-4 max-large:px-1 max-sm:px-1 text-black bg-gray-800 sticky top-0 z-20' >
+            <div className=' mt-0 max-w-full flex justify-between p-4 max-large:px-1 max-sm:px-2 text-black bg-gray-800 sticky top-0 z-20 px-2' >
                 <div onClick={() => {
                     setRendered('popular');
                     getPopularAnime()
