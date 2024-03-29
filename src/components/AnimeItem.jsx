@@ -1,19 +1,12 @@
-import React, { useEffect, useState,useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { GlobalContext } from '../context/GlobalContext'
-import Watchlist from './Watchlist'
+import { useGlobalContext } from '../context/GlobalContext'
 
 
 const AnimeItem = () => {
     const { id } = useParams()
-
-    const {addToWatchlist,watchlist}=useContext(GlobalContext);
-    let storedAnime = watchlist.find(o => o.mal_id === anime.mal_id)
-    const watchlistDisabled = storedAnime ? true : false;
-
-
-
     const [anime, setAnime] = useState({})
+
     const [showMore, setShowMore] = useState(false)
 
     const { aired, synopsis, title, images, trailer
@@ -23,12 +16,17 @@ const AnimeItem = () => {
         const response = await fetch(`https://api.jikan.moe/v4/anime/${anime}`)
         const data = await response.json()
         setAnime(data.data)
-        console.log(data.data)
     }
 
     useEffect(() => {
+        const getAnime = async (animeId) => {
+            const response = await fetch(`https://api.jikan.moe/v4/anime/${animeId}`);
+            const data = await response.json();
+            setAnime(data.data);
+        };
         getAnime(id)
-    }, [])
+    }, [id])
+
 
     return (<div className=' flex items-center justify-center  pt-3'>
         <div className=' px-5  h-[500px] w-[700px] max-md:h-[500px] max-md:w-[600px] max-sm:h-[830px] bg-stone-900  items-center rounded-lg '>
@@ -43,23 +41,24 @@ const AnimeItem = () => {
                 <div className="">
                     <img className='h-[400px] w-[360px] max-phones:h-[450px] max-phones:w-[400px] rounded-lg max-sm:m-auto ' src={images?.jpg.large_image_url} alt="" />
                 </div>
-                <div className="text-white font-semibold max-sm:m-auto">
-                    <p><span>Aired: </span>{aired?.string}</p>
-                    <p><span>Rating: </span>{rating}</p>
-                    <p><span>Rank: </span>{rank}</p>
-                    <p><span>Popularity:</span>{popularity}</p>
-                    <p><span >Genres:</span>
+                <div className="text-white pt-3 max-sm:m-auto">
+                    <p className='mb-[6px]'><span className="font-medium">Aired: </span>{aired?.string}</p>
+                    <p className='mb-[6px]'><span className="font-medium">Rating: </span>{rating}</p>
+                    <p className='mb-[6px]'><span className="font-medium">Rank: </span>{rank}</p>
+                    <p className='mb-[6px]'><span className="font-medium">Popularity:</span>{popularity}</p>
+                    <p className='mb-[6px]'><span className="font-medium">Genres:</span>
                         {genres && genres.map(genre => (
-                            <span style={{ fontWeight: 100 }} key={genre.mal_id}>{genre.name}</span>
+                            <span style={{ fontWeight: 300 }} key={genre.mal_id}>{genre.name}</span>
                         ))}
                     </p>
-                    <p><span>Score:</span>{score}</p>
-                    <p><span>Source:</span>{source}</p>
-                    <p><span>Episode:</span>{episodes}</p>
-                    <p><span>Status:</span>{status}</p>
-                    <p><span>Year:</span>{year}</p>
-                    <button disable={watchlistDisabled} onClick={() => addToWatchlist(anime)} className='p-2 mt-5 bg-cyan-700 rounded-lg font-medium'>ADD TO MY WATCHLIST </button>
+                    <p className='mb-[6px]'><span className="font-medium">Score:</span>{score}</p>
+                    <p className='mb-[6px]'><span className="font-medium">Source:</span>{source}</p>
+                    <p className='mb-[6px]'><span className="font-medium">Episode:</span>{episodes}</p>
+                    <p className='mb-[6px]'><span className="font-medium">Status:</span>{status}</p>
+                    <p className='mb-[6px]'><span className="font-medium">Year:</span>{year}</p>
+                    <button className='p-2 mt-2 bg-cyan-700 rounded-lg font-medium'>ADD TO MY WATCHLIST </button>
                 </div>
+
             </div>
             <div className=" p-5 rounded-xl mt-14 text-white bg-slate-800" >
                 <h4 className=' font-semibold'>{title} :</h4>

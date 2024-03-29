@@ -15,15 +15,16 @@ function Upcoming({ rendered }) {
                     </Link>
                 </div>
             ));
-        } else {
-            return searchResult?.map((anime) => (
+        }
+        else{
+        searchResult?.map((anime) => (
                 <div key={anime.mal_id}> {/* Add key prop here */}
                     <Link to={`/anime/${anime.mal_id}`}>
                         <img className='h-[290px] w-[250px] md:h-[330px] md:w-[270px] lg:h-[350px] lg:w-[300px] xl:h-[400px] rounded-md' src={anime.images.jpg.large_image_url} alt="" />
                         <h1 className='anime-title'>{anime.title}</h1>
                     </Link>
                 </div>
-            ));
+            ))
         }
     }
 

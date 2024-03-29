@@ -4,10 +4,10 @@ import { X, Menu } from 'lucide-react'
 import { useGlobalContext } from '../context/GlobalContext'
 import Upcoming from './Upcoming';
 import Airing from './Airing';
-import Watchlist from './Watchlist';
+import { Link } from 'react-router-dom';
 
 function HomePage() {
-    const {addToWatchlist, handleSubmit, searchAnime, search, handleChange, getAiringAnime, getPopularAnime, getUpcomingAnime } = useGlobalContext();
+    const { addToWatchlist, handleSubmit, searchResult, searchAnime, search, handleChange, getAiringAnime, getPopularAnime, getUpcomingAnime, loading } = useGlobalContext();
     const [rendered, setRendered] = useState('popular');
 
     const switchComponent = () => {
@@ -17,9 +17,7 @@ function HomePage() {
             case 'airing':
                 return <Airing rendered={rendered} />;
             case 'upcoming':
-                return <Upcoming rendered={rendered} />;
-            case 'watchlist':
-                return <Watchlist rendered={rendered} />;
+                return <Upcoming rendered={rendered} />;;
             default:
                 return <Popular rendered={rendered} />;
         }
@@ -45,9 +43,11 @@ function HomePage() {
                         <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                             <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
                         </div>
+
                         <div className={`hover:text-cyan-600 ${rendered === 'airing' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                             <button onClick={() => { setRendered('airing'); getAiringAnime(); }}>AIRING</button>
                         </div>
+
                         <div className={`hover:text-cyan-600 ${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                             <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
                         </div>
@@ -57,36 +57,38 @@ function HomePage() {
                                 <input type="text" placeholder='search' value={search} onChange={handleChange} />
                             </div>
                         </form>
+
                     </div>
-                    <div className='large:hidden flex sm:gap-48 max-sm:gap-6 text-center' >
-                    {open && (
+                    <div className='large:hidden flex sm:gap-48 max-sm:gap-3  text-center' >
+                        {open && (
                             <div className=' max-sm:text-base max-miniphones:text-[10px] max-md:text-[15px]'>
                                 <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                                     <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
                                 </div>
+
                                 <div className={`hover:text-cyan-600 ${rendered === 'airing' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                                     <button onClick={() => { setRendered('airing'); getAiringAnime(); }}>AIRING</button>
                                 </div>
+
                                 <div className={`hover:text-cyan-600 ${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                                     <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
                                 </div>
-                                <form action="" className="" onSubmit={handleSubmit}>
-                            <div className=" border-[3px] border-black rounded-xl text-black ">
-                                <input type="text" placeholder='search' value={search} onChange={handleChange} />
-                            </div>
-                        </form>
+                                    <div className=" border-[3px] border-black rounded-xl text-black ">
+                                        <input type="text" placeholder='search' value={search} onChange={handleChange} onSubmit={handleSubmit}/>
+                                    </div>
                             </div>
 
                         )}
                         <div className=' text-white '>
                             <button onClick={toggleNavbar}>{open ? <X /> : <Menu />} </button>
                         </div>
-                        </div>
-
-
                     </div>
+
+
                 </div>
+            </div>
             {switchComponent()}
+
         </header>
 
     );

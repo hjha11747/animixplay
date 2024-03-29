@@ -10,7 +10,7 @@ const SEARCH = 'SEARCH'
 const GET_POPULAR_ANIME = 'GET_POPULAR_ANIME'
 const GET_UPCOMING_ANIME = 'GET_UPCOMING_ANIME'
 const GET_AIRING_ANIME = 'GET_AIRING_ANIME'
-const WATCHLIST='WATCHLIST'
+const ADD_TO_WATCHLIST = 'ADD_TO_WATCHLIST';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -24,8 +24,6 @@ const reducer = (state, action) => {
             return { ...state, upcomingAnime: action.payload, loading: false }
         case GET_AIRING_ANIME:
             return { ...state, airingAnime: action.payload, loading: false }
-            case "ADD_TO_WATCHLIST":
-            return{...state, watchlist : [action.payload, ...state.watchlist],loading:false};
         default:
             return state
     }
@@ -42,13 +40,13 @@ export const GlobalContextProvider = ({ children }) => {
         isSearch: false,
         searchResult: [],
         loading: false,
-        watchlist:[],
     }
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const [search, setSearch] = useState('');
 
     const handleChange = (e) => {
+        e.preventDefault();
         setSearch(e.target.value);
         if (e.target.value === '') {
             state.isSearch = false;
@@ -99,13 +97,6 @@ export const GlobalContextProvider = ({ children }) => {
         dispatch({ type: SEARCH, payload: data.data })
     }
 
-    const addToWatchlist = (anime) => {
-        dispatch({ type: "ADD_TO_WATCHLIST", payload: anime });
-      };
-
-
-
-
     useEffect(() => {
         getPopularAnime();
     }, [])
@@ -117,7 +108,8 @@ export const GlobalContextProvider = ({ children }) => {
             searchAnime,
             search,
             getAiringAnime,
-            getPopularAnime, getUpcomingAnime,addToWatchlist
+            getPopularAnime,
+            getUpcomingAnime,
         }}>
             {children}
         </GlobalContext.Provider>
