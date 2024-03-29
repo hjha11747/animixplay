@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Popular from './Popular'
-import { X, Menu } from 'lucide-react'
+import { X, Menu, Search } from 'lucide-react'
 import { useGlobalContext } from '../context/GlobalContext'
 import Upcoming from './Upcoming';
 import Airing from './Airing';
@@ -23,22 +23,27 @@ function HomePage() {
         }
     };
 
-    const [open, setopen] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [searchBar, setSearchBar] = useState(false);
 
     const toggleNavbar = () => {
-        setopen(!open);
+        setOpen(!open);
+    }
+
+    const toggleSearchBar = () => {
+        setSearchBar(!searchBar);
     }
 
     return (
-        <header >
-            <div className='max-w-full flex justify-between p-4 max-large:px-1 max-sm:px-3 text-black bg-gray-800 sticky top-[-2px] px-2' >
+        <header>
+            <div className=' max-large:block max-w-full flex justify-between  large:p-4 max-large:px-1 max-sm:px-3 text-black bg-gray-800 sticky top-[-2px] px-2'>
                 <div onClick={() => {
                     setRendered('popular');
                     getPopularAnime()
-                }} className=" text-slate-200 text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[18px]">
+                }} className=" text-slate-500  text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[22px] max-large:pt-5  max-lg:inline-block max-small-phones:pt-1">
                     AnimixWatch
                 </div>
-                <div className=' flex'>
+                <div className=''>
                     <div className="flex justify-between gap-11 text-cyan-200 font-medium max-xl:gap-7 max-xl:text-base max-[900px]:hidden">
                         <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                             <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
@@ -52,42 +57,73 @@ function HomePage() {
                             <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
                         </div>
 
-                        <form action="" className="" onSubmit={handleSubmit}>
-                            <div className=" border-[3px] border-black rounded-xl text-black ">
-                                <input type="text" placeholder='search' value={search} onChange={handleChange} />
-                            </div>
-                        </form>
-
-                    </div>
-                    <div className='large:hidden flex max-miniphones:gap-7 max-phones:gap-20 gap-60 text-center' >
-                        {open && (
-                            <div className=' max-sm:text-base max-miniphones:text-[10px] max-md:text-[15px]'>
-                                <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
-                                    <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
+                        <div >
+                            <form action="" className="" onSubmit={handleSubmit}>
+                                <div className="border-[3px] border-slate-500 rounded-xl text-black">
+                                    <input
+                                        className='h-8 pl-2 bg-transparent text-cyan-600'
+                                        type="text"
+                                        placeholder='search'
+                                        value={search}
+                                        onChange={handleChange}
+                                    />
                                 </div>
+                            </form>
 
-                                <div className={`hover:text-cyan-600 ${rendered === 'airing' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
-                                    <button onClick={() => { setRendered('airing'); getAiringAnime(); }}>AIRING</button>
-                                </div>
-
-                                <div className={`hover:text-cyan-600 ${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
-                                    <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
-                                </div>
-                            </div>
-
-                        )}
-                        <div className=' text-white '>
-                            <button onClick={toggleNavbar}>{open ? <X /> : <Menu />} </button>
                         </div>
                     </div>
 
+                    <div className='flex justify-center'>
+                        <div className=" w-52 h-8 large:hidden  max-phones:gap-20 text-center">
+                            {searchBar && (
+                                <form action="" className="" onSubmit={handleSubmit}>
+                                    <div className="border-[3px] border-slate-500 rounded-xl text-black">
+                                        <input
+                                            className=' pl-2 bg-transparent text-cyan-600'
+                                            type="text"
+                                            placeholder='search'
+                                            value={search}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </form>
+                            )}
+                            <button className=' text-slate-400' onClick={toggleSearchBar}>
+                                <Search className=' absolute top-2 right-12' />
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className='text-center'>
+                        <div className='large:hidden  max-miniphones:gap-7 max-phones:gap-20 text-center'>
+                            <div className='text-slate-400 absolute top-2 right-3'>
+                                <button onClick={toggleNavbar}>{open ? <X /> : <Menu />} </button>
+                            </div>
+
+                            <div className='flex justify-center'> 
+                                {open && (
+                                    <div className='max-sm:text-base max-miniphones:text-[10px] max-md:text-[15px]'>
+                                        <div className={`hover:text-cyan-600  ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
+                                            <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
+                                        </div>
+
+                                        <div className={`hover:text-cyan-600  ${rendered === 'airing' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
+                                            <button onClick={() => { setRendered('airing'); getAiringAnime(); }}>AIRING</button>
+                                        </div>
+
+                                        <div className={`hover:text-cyan-600 mb-1 ${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
+                                            <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
             {switchComponent()}
-
         </header>
-
     );
 }
 
