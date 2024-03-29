@@ -31,14 +31,14 @@ function HomePage() {
 
     return (
         <header >
-            <div className=' mt-0 max-w-full flex justify-between p-4 max-large:px-1 max-sm:px-3 text-black bg-gray-800 sticky top-0 z-20 px-2' >
+            <div className='max-w-full flex justify-between p-4 max-large:px-1 max-sm:px-3 text-black bg-gray-800 sticky top-[-2px] px-2' >
                 <div onClick={() => {
                     setRendered('popular');
                     getPopularAnime()
                 }} className=" text-slate-200 text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[18px]">
                     AnimixWatch
                 </div>
-                <div className=' flex mr-2 '>
+                <div className=' flex'>
                     <div className="flex justify-between gap-11 text-cyan-200 font-medium max-xl:gap-7 max-xl:text-base max-[900px]:hidden">
                         <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                             <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
@@ -59,7 +59,7 @@ function HomePage() {
                         </form>
 
                     </div>
-                    <div className='large:hidden flex sm:gap-40 max-sm:gap-3  text-center' >
+                    <div className='large:hidden flex max-miniphones:gap-7 max-phones:gap-20 gap-60 text-center' >
                         {open && (
                             <div className=' max-sm:text-base max-miniphones:text-[10px] max-md:text-[15px]'>
                                 <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
@@ -73,9 +73,6 @@ function HomePage() {
                                 <div className={`hover:text-cyan-600 ${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                                     <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
                                 </div>
-                                    <div className=" border-[3px] border-black rounded-xl text-black ">
-                                        <input type="text" placeholder='search' value={search} onChange={handleChange} onSubmit={handleSubmit}/>
-                                    </div>
                             </div>
 
                         )}
