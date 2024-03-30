@@ -5,9 +5,10 @@ import { useGlobalContext } from '../context/GlobalContext'
 import Upcoming from './Upcoming';
 import Airing from './Airing';
 import { Link } from 'react-router-dom';
+import Wishlist from './Watchlist';
 
 function HomePage() {
-    const { addToWatchlist, handleSubmit, searchResult, searchAnime, search, handleChange, getAiringAnime, getPopularAnime, getUpcomingAnime, loading } = useGlobalContext();
+    const { addToWishlist, handleSubmit, searchResult, searchAnime, search, handleChange, getAiringAnime, getPopularAnime, getUpcomingAnime, loading } = useGlobalContext();
     const [rendered, setRendered] = useState('popular');
 
     const switchComponent = () => {
@@ -17,7 +18,9 @@ function HomePage() {
             case 'airing':
                 return <Airing rendered={rendered} />;
             case 'upcoming':
-                return <Upcoming rendered={rendered} />;;
+                return <Upcoming rendered={rendered} />;
+            case 'wishlist':
+                return <Wishlist rendered={rendered} />;
             default:
                 return <Popular rendered={rendered} />;
         }
@@ -55,6 +58,10 @@ function HomePage() {
 
                         <div className={`hover:text-cyan-600 ${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                             <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
+                        </div>
+
+                        <div className={`hover:text-cyan-600 ${rendered === 'wishlist' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
+                            <button onClick={() => { setRendered('wishlist'); }}>WISHLIST</button>
                         </div>
 
                         <div >
@@ -114,6 +121,9 @@ function HomePage() {
                                         <div className={`hover:text-cyan-600 mb-1 ${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                                             <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
                                         </div>
+                                        <div className={`hover:text-cyan-600 mb-1 ${rendered === 'wishlist' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
+                                            <button onClick={() => { setRendered('wishlist');}}>WISHLIST</button>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -128,3 +138,5 @@ function HomePage() {
 }
 
 export default HomePage;
+
+
