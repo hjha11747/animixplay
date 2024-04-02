@@ -60,7 +60,7 @@ const AnimeItem = () => {
 
 
     return (<div className=' flex items-center justify-center  pt-3'>
-        <div className=' px-5  h-[500px] w-[700px] max-md:h-[500px] max-md:w-[600px] max-sm:h-[900px] bg-stone-900  items-center rounded-lg lg:h-[600px]  lg:w-[800px] xl:h-[700px]  xl:w-[900px]'>
+        <div className=' px-5  h-[500px] w-[700px] max-md:h-[500px] max-md:w-[600px] max-sm:h-[916px] bg-stone-900  items-center rounded-lg lg:h-[600px]  lg:w-[800px] xl:h-[700px]  xl:w-[900px]'>
             <h1 className='text-center text-2xl p-3 text-white font-bold'>
                 {showMore ? title : title ? title.substring(0, 45) + '' : ''}
             </h1>
