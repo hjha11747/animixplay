@@ -43,8 +43,8 @@ function HomePage() {
                 <div onClick={() => {
                     setRendered('popular');
                     getPopularAnime()
-                }} className=" text-slate-500  text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[22px] max-large:pt-5  max-lg:inline-block max-small-phones:pt-1">
-                    AnimixWatch
+                }} className=" text-slate-300  text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[22px] max-large:pt-5  max-lg:inline-block max-small-phones:pt-1">
+                    Animix<span className='text-indigo-700'>Watch</span> 
                 </div>
                 <div className=''>
                     <div className="flex justify-between gap-11 text-cyan-200 font-medium max-xl:gap-7 max-xl:text-base max-[900px]:hidden">
@@ -61,7 +61,7 @@ function HomePage() {
                         </div>
 
                         <div className={`hover:text-cyan-600 ${rendered === 'wishlist' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
-                            <button onClick={() => { setRendered('wishlist'); }}>WISHLIST</button>
+                            <button onClick={() => { setRendered('wishlist'); }}>WATCHLIST</button>
                         </div>
 
                         <div >
@@ -122,7 +122,7 @@ function HomePage() {
                                             <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
                                         </div>
                                         <div className={`hover:text-cyan-600 mb-1 ${rendered === 'wishlist' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
-                                            <button onClick={() => { setRendered('wishlist');}}>WISHLIST</button>
+                                            <button onClick={() => { setRendered('wishlist');}}>WATCHLIST</button>
                                         </div>
                                     </div>
                                 )}

@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useGlobalContext } from '../context/GlobalContext'
+import Watchlist from './Watchlist';
 
 
 const AnimeItem = () => {
-    const { dispatch } = useGlobalContext();
+    const { dispatch, wishlist } = useGlobalContext();
 
     const { id } = useParams()
     const [anime, setAnime] = useState({})
@@ -20,7 +21,7 @@ const AnimeItem = () => {
             dispatch({ type: "ADD_TO_WISHLIST", payload: anime });
             setAnimeAdded(true);
             setButtonClassName('p-2 mt-2 bg-green-700 rounded-lg font-medium');
-        setButtonText('ADDED TO WATCHLIST');
+            setButtonText('ADDED TO WATCHLIST');
         }
     };
 
@@ -32,6 +33,21 @@ const AnimeItem = () => {
         const data = await response.json()
         setAnime(data.data)
     }
+
+    useEffect(() => {
+        let storedAnime = wishlist.find(o => o.mal_id === anime.mal_id);
+        if (storedAnime) {
+            setAnimeAdded(true);
+            setButtonText('ADDED TO WATCHLIST');
+        } else {
+            setAnimeAdded(false);
+            setButtonText('ADD TO MY WATCHLIST');
+        }
+    }, [wishlist, anime]);
+
+
+    let storedAnime = wishlist.find(o => o.mal_id === anime.mal_id);
+    const animeWatched = storedAnime ? true : false
 
     useEffect(() => {
         const getAnime = async (animeId) => {
@@ -57,29 +73,35 @@ const AnimeItem = () => {
                     <img className='h-[400px] w-[390px] max-phones:h-[450px] max-phones:w-[400px] rounded-lg max-sm:m-auto lg:h-[500px]  lg:w-[400px] xl:h-[600px]  xl:w-[500px] ' src={images?.jpg.large_image_url} alt="" />
                 </div>
                 <div className="text-white pt-3 lg:mt-11 xl:text-lg max-sm:m-auto">
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Aired: </span>{aired?.string}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium"> Aired: </span>{aired?.string}</p>
                     <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px]  '><span className="font-medium">Rating: </span>{rating}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span classNam e="font-medium">Rank: </span>{rank}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px]'><span className="font-medium">Popularity:</span>{popularity}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px]'><span className="font-medium">Genres:</span>
-                        {genres && genres.map(genre => (
-                            <span style={{ fontWeight: 300 }} key={genre.mal_id}>{genre.name}</span>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Rank: </span>{rank}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px]'><span className="font-medium">Popularity: </span>{popularity}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px]'><span className="font-medium">Genres: </span>
+                        {genres && genres.map((genre, index) => (
+                            <span key={genre.mal_id}>
+                                <span style={{ fontWeight: 400 }}>{genre.name} </span>
+                                {index !== genres.length - 1 && <span>, </span>}
+                            </span>
                         ))}
                     </p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Score:</span>{score}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Source:</span>{source}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Episode:</span>{episodes}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Status:</span>{status}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Year:</span>{year}</p>
+
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Score: </span>{score}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Source: </span>{source}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Episode: </span>{episodes}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Status: </span>{status}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Year: </span>{year}</p>
                     <div className="flex gap-6 max-phones:block ">
-                    <button
-                        className={buttonClassName}
-                        disabled={animeAdded}
-                        onClick={addToWishlist}
-                    >
-                        {buttonText}
-                    </button>
-                </div>
+                        <button
+                            className={animeAdded ? 'p-2 mt-2 bg-green-700 rounded-lg font-medium' : 'p-2 mt-2 bg-blue-800 rounded-lg font-medium'}
+                            onClick={addToWishlist}
+                            disabled={animeWatched}
+                        >
+                            {buttonText}
+                        </button>
+
+
+                    </div>
                 </div>
 
             </div>
