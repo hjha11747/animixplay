@@ -112,7 +112,7 @@ function HomePage() {
 
                             <div className='flex justify-center '>
                                 {open && (
-                                    <div className='max-sm:text-base max-miniphones:text-[10px] max-md:text-[15px] flex gap-3 font-semibold'>
+                                    <div className='max-sm:text-base max-miniphones:text-[10px] max-md:text-[13px] flex gap-4 '>
                                         <div className={`mb-1 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200'} rounded-[2px]`}>
                                             <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
                                         </div>
