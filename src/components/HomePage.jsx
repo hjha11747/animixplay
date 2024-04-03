@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import Popular from './Popular'
 import { X, Menu, Search } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { useGlobalContext } from '../context/GlobalContext'
 import Upcoming from './Upcoming';
 import Airing from './Airing';
-import { Link } from 'react-router-dom';
 import Wishlist from './Watchlist';
 
 function HomePage() {
-    const { addToWishlist, handleSubmit, searchResult, searchAnime, search, handleChange, getAiringAnime, getPopularAnime, getUpcomingAnime, loading } = useGlobalContext();
+    const { handleSubmit, search, handleChange, getAiringAnime, getPopularAnime, getUpcomingAnime } = useGlobalContext();
     const [rendered, setRendered] = useState('popular');
+    const location = useNavigate();
+
 
     const switchComponent = () => {
         switch (rendered) {
@@ -21,8 +23,9 @@ function HomePage() {
                 return <Upcoming rendered={rendered} />;
             case 'wishlist':
                 return <Wishlist rendered={rendered} />;
+
             default:
-                return <Popular rendered={rendered} />;
+                return <Wishlist rendered={rendered} />;
         }
     };
 
@@ -44,7 +47,7 @@ function HomePage() {
                     setRendered('popular');
                     getPopularAnime()
                 }} className=" text-slate-300  text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[22px] max-large:pt-5  max-lg:inline-block max-small-phones:pt-1">
-                    Animix<span className='text-indigo-700'>Watch</span> 
+                    Animix<span className='text-indigo-700'>Watch</span>
                 </div>
                 <div className=''>
                     <div className="flex justify-between gap-11 text-cyan-200 font-medium max-xl:gap-7 max-xl:text-base max-[900px]:hidden">
@@ -53,7 +56,7 @@ function HomePage() {
                         </div>
 
                         <div className={`hover:text-cyan-600 ${rendered === 'airing' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
-                            <button onClick={() => { setRendered('airing'); getAiringAnime(); }}>AIRING</button>
+                            <button onClick={() => { setRendered('airing'); getAiringAnime(); }}>ONGOING</button>
                         </div>
 
                         <div className={`hover:text-cyan-600 ${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
@@ -107,26 +110,28 @@ function HomePage() {
                                 <button onClick={toggleNavbar}>{open ? <X /> : <Menu />} </button>
                             </div>
 
-                            <div className='flex justify-center'> 
+                            <div className='flex justify-center '>
                                 {open && (
-                                    <div className='max-sm:text-base max-miniphones:text-[10px] max-md:text-[15px]'>
-                                        <div className={`hover:text-cyan-600  ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
+                                    <div className='max-sm:text-base max-miniphones:text-[10px] max-md:text-[15px] flex gap-3 font-semibold'>
+                                        <div className={`mb-1 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200'} rounded-[2px]`}>
                                             <button onClick={() => { setRendered('popular'); getPopularAnime(); }}>POPULAR</button>
                                         </div>
 
-                                        <div className={`hover:text-cyan-600  ${rendered === 'airing' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
-                                            <button onClick={() => { setRendered('airing'); getAiringAnime(); }}>AIRING</button>
+                                        <div className={`${rendered === 'airing' ? 'text-cyan-600' : 'text-cyan-200'} rounded-[2px] `}>
+                                            <button onClick={() => { setRendered('airing'); getAiringAnime(); }}>ONGOING</button>
                                         </div>
 
-                                        <div className={`hover:text-cyan-600 mb-1 ${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
+                                        <div className={`${rendered === 'upcoming' ? 'text-cyan-600' : 'text-cyan-200'} mb-1 rounded-[2px]`}>
                                             <button onClick={() => { setRendered('upcoming'); getUpcomingAnime(); }}>UPCOMING</button>
                                         </div>
-                                        <div className={`hover:text-cyan-600 mb-1 ${rendered === 'wishlist' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
-                                            <button onClick={() => { setRendered('wishlist');}}>WATCHLIST</button>
+
+                                        <div className={`${rendered === 'wishlist' ? 'text-cyan-600' : 'text-cyan-200'} mb-1 rounded-[2px]`}>
+                                            <button onClick={() => { setRendered('wishlist'); }}>WATCHLIST</button>
                                         </div>
                                     </div>
                                 )}
                             </div>
+
                         </div>
                     </div>
 

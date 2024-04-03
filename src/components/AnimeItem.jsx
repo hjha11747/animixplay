@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useGlobalContext } from '../context/GlobalContext'
-import Watchlist from './Watchlist';
+
 
 
 const AnimeItem = () => {
@@ -48,7 +48,6 @@ const AnimeItem = () => {
 
     let storedAnime = wishlist.find(o => o.mal_id === anime.mal_id);
     const animeWatched = storedAnime ? true : false
-
     useEffect(() => {
         const getAnime = async (animeId) => {
             const response = await fetch(`https://api.jikan.moe/v4/anime/${animeId}`);
@@ -57,6 +56,8 @@ const AnimeItem = () => {
         };
         getAnime(id);
     }, [id]);
+    
+
 
 
     return (<div className=' flex items-center justify-center  pt-3'>
@@ -120,3 +121,5 @@ const AnimeItem = () => {
 }
 
 export default AnimeItem
+
+
