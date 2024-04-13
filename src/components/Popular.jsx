@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import '../App.css'
 
 function Popular({ rendered }) {
-  const { popularAnime, isSearch, searchResult } = useGlobalContext();
+  const { popularAnime, searchResult } = useGlobalContext();
 
   const renderAnimeList = (animeList) => {
     const seenIds = new Set();
     return animeList?.filter(anime => {
       if (seenIds.has(anime.mal_id)) {
-        return false;  // Skip duplicates
+        return false;
       }
       seenIds.add(anime.mal_id);
       return true;
@@ -24,13 +24,10 @@ function Popular({ rendered }) {
     ));
   };
 
-  const conditionalRender = () => {
-    return isSearch || rendered !== 'popular' ? renderAnimeList(searchResult) : renderAnimeList(popularAnime);
-  }
-
+  const animeList = rendered === 'search' ? searchResult : popularAnime;
   return (
     <div className='p-2 m-0 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 md:p-7 lg:grid-cols-4 lg:gap-7'>
-      {conditionalRender()}
+      {renderAnimeList(animeList)}
     </div>
   );
 }

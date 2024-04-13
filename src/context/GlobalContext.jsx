@@ -4,7 +4,7 @@ export const GlobalContext = createContext();
 
 const baseUrl = "https://api.jikan.moe/v4";
 
-// ACTIONS
+
 const LOADING = 'LOADING';
 const SEARCH = 'SEARCH';
 const GET_POPULAR_ANIME = 'GET_POPULAR_ANIME';
@@ -32,7 +32,7 @@ const reducer = (state, action) => {
                 wishlist: state.wishlist.filter(anime => anime.mal_id !== action.payload)
             };
         default:
-            return state;  // Fixed default case to just return the current state
+            return state;
     }
 };
 
@@ -116,13 +116,13 @@ const searchAnime = async (searchQuery, maxPages = 3) => {
             const data = await response.json();
             allAnime = allAnime.concat(data.data);
             if (!data.pagination.has_next_page) {
-                break; // Stop fetching more pages if there are no further pages
+                break; 
             }
         }
         dispatch({ type: SEARCH, payload: allAnime });
     } catch (error) {
         console.error(`Failed to fetch search results for "${searchQuery}":`, error);
-        dispatch({ type: SEARCH, payload: [] }); // Handle error by setting the search results to an empty array
+        dispatch({ type: SEARCH, payload: [] });
     }
 };
 

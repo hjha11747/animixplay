@@ -24,8 +24,8 @@ function HomePage() {
             case 'wishlist':
                 return <Wishlist rendered={rendered} />;
 
-                case 'popular':
-                    return <Popular rendered={rendered} />;
+            default:
+                return <Wishlist rendered={rendered} />;
         }
     };
 
@@ -38,6 +38,10 @@ function HomePage() {
 
     const toggleSearchBar = () => {
         setSearchBar(!searchBar);
+    }
+
+    const clearSearch = () => {
+        handleChange({ target: { value: '' } });
     }
 
     return (
@@ -77,6 +81,9 @@ function HomePage() {
                                         value={search}
                                         onChange={handleChange}
                                     />
+                                            <button onClick={clearSearch} type="button" className="text-slate-400 mr-2">
+                                                <X size={18} />
+                                            </button>
                                 </div>
                             </form>
 
@@ -95,6 +102,13 @@ function HomePage() {
                                             value={search}
                                             onChange={handleChange}
                                         />
+
+                                        {search && (
+                                            <button onClick={clearSearch} type="button" className="text-slate-400">
+                                                <X className='pt-1' size={18} />
+                                            </button>
+                                        )}
+
                                     </div>
                                 </form>
                             )}
