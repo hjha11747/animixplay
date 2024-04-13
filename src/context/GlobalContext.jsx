@@ -26,25 +26,42 @@ const reducer = (state, action) => {
             return { ...state, airingAnime: action.payload, loading: false };
         case ADD_TO_WISHLIST:
             return { ...state, wishlist: [...state.wishlist, action.payload], loading: false };
-        default:
-            return { ...state, wishlist: [], loading: false };
         case "REMOVE_FROM_WISHLIST":
             return {
                 ...state,
                 wishlist: state.wishlist.filter(anime => anime.mal_id !== action.payload)
             };
+        default:
+            return state;  // Fixed default case to just return the current state
     }
 };
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function fetchWithRetry(url, retries = 3, delay = 1000) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            if (i < retries - 1) {
+                await sleep(delay);
+            } else {
+                console.error(`Failed to fetch after ${retries} attempts:`, error);
+                throw error;
+            }
+        }
+    }
+}
 
 export const GlobalContextProvider = ({ children }) => {
-
     const initialState = {
         popularAnime: [],
         upcomingAnime: [],
         airingAnime: [],
-        pictures: [],
-        isSearch: false,
         searchResult: [],
         wishlist: [],
         loading: false,
@@ -54,12 +71,12 @@ export const GlobalContextProvider = ({ children }) => {
     const [search, setSearch] = useState('');
 
     const handleChange = (e) => {
-        e.preventDefault();
         setSearch(e.target.value);
         if (e.target.value === '') {
             state.isSearch = false;
         }
-    }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (search) {
@@ -71,102 +88,41 @@ export const GlobalContextProvider = ({ children }) => {
         }
     };
 
-    // FETCH UPCOMING ANIME
-    const getUpcomingAnime = async (maxPages = 2) => {
+    const getAnime = async (type, filter) => {
         dispatch({ type: LOADING });
         let allAnime = [];
         try {
-            for (let page = 1; page <= maxPages; page++) {
-                const response = await fetch(`${baseUrl}/top/anime?filter=upcoming&page=${page}`);
-                const data = await response.json();
+            for (let page = 1; page <= 3; page++) {
+                const data = await fetchWithRetry(`${baseUrl}/top/anime?filter=${filter}&page=${page}`);
                 allAnime = allAnime.concat(data.data);
                 if (!data.pagination.has_next_page) {
                     break;
                 }
             }
-            dispatch({ type: GET_UPCOMING_ANIME, payload: allAnime });
+            dispatch({ type, payload: allAnime });
         } catch (error) {
-            console.error('Failed to fetch upcoming anime:', error);
-            dispatch({ type: GET_UPCOMING_ANIME, payload: [] });  // handle error case by setting empty array
+            console.error(`Failed to fetch ${type.toLowerCase()}:`, error);
+            dispatch({ type, payload: [] });
         }
     };
-    
 
-    // FETCH AIRING ANIME  getAiringAnime
-    const getAiringAnime = async (maxPages = 2) => {
-        dispatch({ type: LOADING });
-        let allAnime = [];
-        try {
-            for (let page = 1; page <= maxPages; page++) {
-                const response = await fetch(`${baseUrl}/top/anime?filter=airing&page=${page}`);
-                const data = await response.json();
-                allAnime = allAnime.concat(data.data);
-                if (!data.pagination.has_next_page) {
-                    break;
-                }
-            }
-            dispatch({ type: GET_AIRING_ANIME, payload: allAnime });
-        } catch (error) {
-            console.error('Failed to fetch airing anime:', error);
-            dispatch({ type: GET_AIRING_ANIME, payload: [] });  // handle error case by setting empty array
-        }
-    };
-    
-
-    // FETCH POPULAR ANIME
-// FETCH POPULAR ANIME from Multiple Pages
-const getPopularAnime = async (maxPages = 2) => {
-    dispatch({ type: LOADING });
-    let allAnime = [];
-    try {
-        for (let page = 1; page <= maxPages; page++) {
-            const response = await fetch(`${baseUrl}/top/anime?filter=bypopularity&page=${page}`);
-            const data = await response.json();
-            allAnime = allAnime.concat(data.data);
-            if (data.pagination.has_next_page === false) {
-                break;
-            }
-        }
-        dispatch({ type: GET_POPULAR_ANIME, payload: allAnime });
-    } catch (error) {
-        console.error('Failed to fetch popular anime:', error);
-        dispatch({ type: GET_POPULAR_ANIME, payload: [] });
-    }
-};
-
-
-    // SEARCH ANIME
-// Fetch SEARCH RESULTS from Multiple Pages
-const searchAnime = async (searchQuery, maxPages = 2) => {
-    dispatch({ type: LOADING });
-    let allAnime = [];
-    try {
-        for (let page = 1; page <= maxPages; page++) {
-            const response = await fetch(`${baseUrl}/anime?q=${encodeURIComponent(searchQuery)}&order_by=popularity&sort=asc&sfw&page=${page}`);
-            const data = await response.json();
-            allAnime = allAnime.concat(data.data);
-            if (!data.pagination.has_next_page) {
-                break; // Stop fetching more pages if there are no further pages
-            }
-        }
-        dispatch({ type: SEARCH, payload: allAnime });
-    } catch (error) {
-        console.error(`Failed to fetch search results for "${searchQuery}":`, error);
-        dispatch({ type: SEARCH, payload: [] }); // Handle error by setting the search results to an empty array
-    }
-};
-
-
-
+    const getPopularAnime = () => getAnime(GET_POPULAR_ANIME, 'bypopularity');
+    const getAiringAnime = () => getAnime(GET_AIRING_ANIME, 'airing');
+    const getUpcomingAnime = () => getAnime(GET_UPCOMING_ANIME, 'upcoming');
 
     useEffect(() => {
-        getPopularAnime(1);
+        (async () => {
+            await getPopularAnime();
+            await sleep(2000);  // Delay subsequent fetches to avoid hitting rate limit
+            await getAiringAnime();
+            await sleep(2000);
+            await getUpcomingAnime();
+        })();
     }, []);
 
-
-    useEffect(()=>{
-        localStorage.setItem("wishlist" ,JSON.stringify(state.wishlist))
-    },[state])
+    useEffect(() => {
+        localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+    }, [state.wishlist]);
 
     return (
         <GlobalContext.Provider value={{
@@ -184,6 +140,4 @@ const searchAnime = async (searchQuery, maxPages = 2) => {
     );
 };
 
-export const useGlobalContext = () => {
-    return useContext(GlobalContext);
-};
+export const useGlobalContext = () => useContext(GlobalContext);

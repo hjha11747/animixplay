@@ -6,6 +6,7 @@ import { useGlobalContext } from '../context/GlobalContext'
 
 const AnimeItem = () => {
     const { dispatch, wishlist } = useGlobalContext();
+    
 
     const { id } = useParams()
     const [anime, setAnime] = useState({})
@@ -24,9 +25,6 @@ const AnimeItem = () => {
             setButtonText('ADDED TO WATCHLIST');
         }
     };
-
-    const { aired, synopsis, title, images, trailer
-        , popularity, rank, score, source, status, year, rating, episodes, genres } = anime
 
     const getAnime = async (anime) => {
         const response = await fetch(`https://api.jikan.moe/v4/anime/${anime}`)
@@ -56,6 +54,9 @@ const AnimeItem = () => {
         };
         getAnime(id);
     }, [id]);
+
+
+    const { aired, synopsis, title, images, trailer, popularity, rank, score, source, status, year, rating, episodes, genres } = anime
     
 
 
@@ -110,9 +111,9 @@ const AnimeItem = () => {
                 <h4 className=' font-semibold'>{title} :</h4>
                 <p className=' text-sm'>
                     {showMore ? synopsis : synopsis?.substring(0, 300) + '...'}
-                    <button onClick={() => {
+                      <button className=' ml-2 text-[14px]' onClick={() => {
                         setShowMore(!showMore)
-                    }}>{showMore ? 'Show Less' : 'Read More'}</button>
+                    }}>  { showMore ? ' Show Less ' : ' Read More '}</button>
                 </p>
             </div>
         </div>
