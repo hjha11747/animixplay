@@ -91,7 +91,7 @@ function HomePage() {
                     </div>
 
                     <div className='flex justify-center'>
-                        <div className=" w-60 h-8 large:hidden  max-phones:gap-20 text-center">
+                        <div className=" w-100 h-8 large:hidden  max-phones:gap-20 text-center ">
                             {searchBar && (
                                 <form action="" className="" onSubmit={handleSubmit}>
                                     <div className="border-[3px] border-slate-500 rounded-xl text-black">
