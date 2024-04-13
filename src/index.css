@@ -1,3 +1,4 @@
-@tailwind base;
+@import url('https://fonts.googleapis.com/css2?family=Jacquard+24&display=swap');
+ @tailwind base;
 @tailwind components;
 @tailwind utilities;

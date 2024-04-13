@@ -72,40 +72,95 @@ export const GlobalContextProvider = ({ children }) => {
     };
 
     // FETCH UPCOMING ANIME
-    const getUpcomingAnime = async () => {
+    const getUpcomingAnime = async (maxPages = 3) => {
         dispatch({ type: LOADING });
-        const response = await fetch(`${baseUrl}/top/anime?filter=upcoming`);
-        const data = await response.json();
-        dispatch({ type: GET_UPCOMING_ANIME, payload: data.data });
+        let allAnime = [];
+        try {
+            for (let page = 1; page <= maxPages; page++) {
+                const response = await fetch(`${baseUrl}/top/anime?filter=upcoming&page=${page}`);
+                const data = await response.json();
+                allAnime = allAnime.concat(data.data);
+                if (!data.pagination.has_next_page) {
+                    break;
+                }
+            }
+            dispatch({ type: GET_UPCOMING_ANIME, payload: allAnime });
+        } catch (error) {
+            console.error('Failed to fetch upcoming anime:', error);
+            dispatch({ type: GET_UPCOMING_ANIME, payload: [] });  // handle error case by setting empty array
+        }
     };
+    
 
-    // FETCH AIRING ANIME
-    const getAiringAnime = async () => {
+    // FETCH AIRING ANIME  getAiringAnime
+    const getAiringAnime = async (maxPages = 3) => {
         dispatch({ type: LOADING });
-        const response = await fetch(`${baseUrl}/top/anime?filter=airing`);
-        const data = await response.json();
-        dispatch({ type: GET_AIRING_ANIME, payload: data.data });
+        let allAnime = [];
+        try {
+            for (let page = 1; page <= maxPages; page++) {
+                const response = await fetch(`${baseUrl}/top/anime?filter=airing&page=${page}`);
+                const data = await response.json();
+                allAnime = allAnime.concat(data.data);
+                if (!data.pagination.has_next_page) {
+                    break;
+                }
+            }
+            dispatch({ type: GET_AIRING_ANIME, payload: allAnime });
+        } catch (error) {
+            console.error('Failed to fetch airing anime:', error);
+            dispatch({ type: GET_AIRING_ANIME, payload: [] });  // handle error case by setting empty array
+        }
     };
+    
 
     // FETCH POPULAR ANIME
-    const getPopularAnime = async () => {
-        dispatch({ type: LOADING });
-        const response = await fetch(`${baseUrl}/top/anime?filter=bypopularity`);
-        const data = await response.json();
-        dispatch({ type: GET_POPULAR_ANIME, payload: data.data });
-    };
+// FETCH POPULAR ANIME from Multiple Pages
+const getPopularAnime = async (maxPages = 3) => {
+    dispatch({ type: LOADING });
+    let allAnime = [];
+    try {
+        for (let page = 1; page <= maxPages; page++) {
+            const response = await fetch(`${baseUrl}/top/anime?filter=bypopularity&page=${page}`);
+            const data = await response.json();
+            allAnime = allAnime.concat(data.data);
+            if (data.pagination.has_next_page === false) {
+                break;
+            }
+        }
+        dispatch({ type: GET_POPULAR_ANIME, payload: allAnime });
+    } catch (error) {
+        console.error('Failed to fetch popular anime:', error);
+        dispatch({ type: GET_POPULAR_ANIME, payload: [] });
+    }
+};
+
 
     // SEARCH ANIME
-    const searchAnime = async (anime) => {
-        dispatch({ type: LOADING });
-        const response = await fetch(`${baseUrl}/anime?q=${anime}&order_by=popularity&sort=asc&sfw`);
-        const data = await response.json();
-        dispatch({ type: SEARCH, payload: data.data });
-    };
+// Fetch SEARCH RESULTS from Multiple Pages
+const searchAnime = async (searchQuery, maxPages = 3) => {
+    dispatch({ type: LOADING });
+    let allAnime = [];
+    try {
+        for (let page = 1; page <= maxPages; page++) {
+            const response = await fetch(`${baseUrl}/anime?q=${encodeURIComponent(searchQuery)}&order_by=popularity&sort=asc&sfw&page=${page}`);
+            const data = await response.json();
+            allAnime = allAnime.concat(data.data);
+            if (!data.pagination.has_next_page) {
+                break; // Stop fetching more pages if there are no further pages
+            }
+        }
+        dispatch({ type: SEARCH, payload: allAnime });
+    } catch (error) {
+        console.error(`Failed to fetch search results for "${searchQuery}":`, error);
+        dispatch({ type: SEARCH, payload: [] }); // Handle error by setting the search results to an empty array
+    }
+};
+
 
     useEffect(() => {
-        getPopularAnime();
+        getPopularAnime(2);
     }, []);
+
 
     useEffect(()=>{
         localStorage.setItem("wishlist" ,JSON.stringify(state.wishlist))

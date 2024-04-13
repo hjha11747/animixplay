@@ -24,8 +24,8 @@ function HomePage() {
             case 'wishlist':
                 return <Wishlist rendered={rendered} />;
 
-            default:
-                return <Wishlist rendered={rendered} />;
+                case 'popular':
+                    return <Popular rendered={rendered} />;
         }
     };
 
@@ -42,11 +42,11 @@ function HomePage() {
 
     return (
         <header>
-            <div className=' max-large:block max-w-full flex justify-between  large:p-4 max-large:px-1 max-sm:px-3 text-black bg-gray-800 sticky top-[-2px] px-2'>
+            <div className=' max-large:block max-w-full flex justify-between  large:p-4 max-large:px-1 max-sm:px-3 text-black bg-gray-800 sticky top-[-2px] px-2 z-50'>
                 <div onClick={() => {
                     setRendered('popular');
                     getPopularAnime()
-                }} className=" text-slate-300  text-3xl font-semibold font-serif ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[22px] max-large:pt-5  max-lg:inline-block max-small-phones:pt-1">
+                }} className=" font-body text-slate-300  text-3xl font-semibold ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[22px] max-large:pt-5  max-lg:inline-block max-small-phones:pt-1">
                     Animix<span className='text-indigo-700'>Watch</span>
                 </div>
                 <div className=''>

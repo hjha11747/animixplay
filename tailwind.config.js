@@ -12,11 +12,18 @@ export default {
       'xl': '1280px',
       '2xl': '1536px',
       'small-phones': '300px',
-      'miniphones' :'335px',
-      'phones':'550px',
-      'large':'900px',
+      'miniphones': '335px',
+      'phones': '550px',
+      'large': '900px',
     },
-    extend: {},
+    fontFamily: {
+      body: ["Jacquard"]
+    },
+    extend: {
+      scale: {
+        '120': '1.2',
+      }
+    }
   },
   plugins: [],
 }

@@ -61,7 +61,7 @@ const AnimeItem = () => {
 
 
     return (<div className=' flex items-center justify-center  pt-3'>
-        <div className=' px-5  h-[500px] w-[700px] max-md:h-[500px] max-md:w-[600px] max-sm:h-[916px] bg-stone-900  items-center rounded-lg lg:h-[600px]  lg:w-[800px] xl:h-[700px]  xl:w-[900px]'>
+        <div className=' px-5  h-[500px] w-[700px] max-md:h-[500px] max-md:w-[600px] max-sm:h-[916px] bg-stone-900  items-center rounded-lg lg:h-[600px]  lg:w-[800px] xl:h-[600px]  xl:w-[800px]'>
             <h1 className='text-center text-2xl p-3 text-white font-bold'>
                 {showMore ? title : title ? title.substring(0, 45) + '' : ''}
             </h1>
@@ -71,14 +71,14 @@ const AnimeItem = () => {
             <div className="flex justify-center gap-6 
             max-phones:block ">
                 <div className="">
-                    <img className='h-[400px] w-[390px] max-phones:h-[450px] max-phones:w-[400px] rounded-lg max-sm:m-auto lg:h-[500px]  lg:w-[400px] xl:h-[600px]  xl:w-[500px] ' src={images?.jpg.large_image_url} alt="" />
+                    <img className='h-[400px] w-[330px] max-phones:h-[450px] max-phones:w-[330px] rounded-lg max-sm:m-auto lg:h-[500px]  lg:w-[380px] xl:h-[500px]  xl:w-[380px] ' src={images?.jpg.large_image_url} alt="" />
                 </div>
-                <div className="text-white pt-3 lg:mt-11 xl:text-lg max-sm:m-auto">
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium"> Aired: </span>{aired?.string}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px]  '><span className="font-medium">Rating: </span>{rating}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Rank: </span>{rank}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px]'><span className="font-medium">Popularity: </span>{popularity}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px]'><span className="font-medium">Genres: </span>
+                <div className="text-white pt-3 lg:mt-4 xl:text-lg max-sm:m-auto max-sm:text-[14px]">
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px] '><span className="font-medium"> Aired: </span>{aired?.string}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px]  '><span className="font-medium">Rating: </span>{rating}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px] '><span className="font-medium">Rank: </span>{rank}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px]'><span className="font-medium">Popularity: </span>{popularity}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px]'><span className="font-medium">Genres: </span>
                         {genres && genres.map((genre, index) => (
                             <span key={genre.mal_id}>
                                 <span style={{ fontWeight: 400 }}>{genre.name} </span>
@@ -87,11 +87,11 @@ const AnimeItem = () => {
                         ))}
                     </p>
 
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Score: </span>{score}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Source: </span>{source}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Episode: </span>{episodes}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Status: </span>{status}</p>
-                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[15px] '><span className="font-medium">Year: </span>{year}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px] '><span className="font-medium">Score: </span>{score}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px] '><span className="font-medium">Source: </span>{source}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px] '><span className="font-medium">Episode: </span>{episodes}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px] '><span className="font-medium">Status: </span>{status}</p>
+                    <p className='mb-[6px] lg:mb-[12px] xl:mb-[10px] '><span className="font-medium">Year: </span>{year}</p>
                     <div className="flex gap-6 max-phones:block ">
                         <button
                             className={animeAdded ? 'p-2 mt-2 bg-green-700 rounded-lg font-medium' : 'p-2 mt-2 bg-blue-800 rounded-lg font-medium'}
