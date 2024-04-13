@@ -92,7 +92,7 @@ export const GlobalContextProvider = ({ children }) => {
         dispatch({ type: LOADING });
         let allAnime = [];
         try {
-            for (let page = 1; page <= 3; page++) {
+            for (let page = 1; page <= 2; page++) {
                 const data = await fetchWithRetry(`${baseUrl}/top/anime?filter=${filter}&page=${page}`);
                 allAnime = allAnime.concat(data.data);
                 if (!data.pagination.has_next_page) {
@@ -105,6 +105,26 @@ export const GlobalContextProvider = ({ children }) => {
             dispatch({ type, payload: [] });
         }
     };
+        // SEARCH ANIME
+// Fetch SEARCH RESULTS from Multiple Pages
+const searchAnime = async (searchQuery, maxPages = 3) => {
+    dispatch({ type: LOADING });
+    let allAnime = [];
+    try {
+        for (let page = 1; page <= maxPages; page++) {
+            const response = await fetch(`${baseUrl}/anime?q=${encodeURIComponent(searchQuery)}&order_by=popularity&sort=asc&sfw&page=${page}`);
+            const data = await response.json();
+            allAnime = allAnime.concat(data.data);
+            if (!data.pagination.has_next_page) {
+                break; // Stop fetching more pages if there are no further pages
+            }
+        }
+        dispatch({ type: SEARCH, payload: allAnime });
+    } catch (error) {
+        console.error(`Failed to fetch search results for "${searchQuery}":`, error);
+        dispatch({ type: SEARCH, payload: [] }); // Handle error by setting the search results to an empty array
+    }
+};
 
     const getPopularAnime = () => getAnime(GET_POPULAR_ANIME, 'bypopularity');
     const getAiringAnime = () => getAnime(GET_AIRING_ANIME, 'airing');
@@ -141,3 +161,4 @@ export const GlobalContextProvider = ({ children }) => {
 };
 
 export const useGlobalContext = () => useContext(GlobalContext);
+
