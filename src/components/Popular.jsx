@@ -4,33 +4,28 @@ import { Link } from 'react-router-dom';
 import '../App.css'
 
 function Popular({ rendered }) {
-  const { popularAnime, isSearch, searchResult } = useGlobalContext()
+  const { popularAnime, isSearch, searchResult } = useGlobalContext();
+
+  const renderAnimeList = (animeList) => {
+    const seenIds = new Set();
+    return animeList?.filter(anime => {
+      if (seenIds.has(anime.mal_id)) {
+        return false;  // Skip duplicates
+      }
+      seenIds.add(anime.mal_id);
+      return true;
+    }).map((anime) => (
+      <div key={anime.mal_id} className='flex'>
+        <Link to={`/anime/${anime.mal_id}`}>
+          <img className='anime-image h-[290px] w-[250px] md:h-[330px] md:w-[270px] lg:h-[350px] lg:w-[300px] xl:h-[360px] rounded-md hover:scale-105 transition duration-700' src={anime.images.jpg.large_image_url} alt="" />
+          <h1 className='text-white text-[18px] font-semibold text-center max-sm:text-sm max-md:text-base'>{anime.title}</h1>
+        </Link>
+      </div>
+    ));
+  };
 
   const conditionalRender = () => {
-    if (!isSearch && rendered === 'popular') {
-      return popularAnime?.map((anime) => {
-        return (
-          <div className='flex' key={anime.mal_id}>
-            <Link to={`/anime/${anime.mal_id}`}>
-            <img className='anime-image h-[290px] w-[250px] md:h-[330px] md:w-[270px] lg:h-[350px] lg:w-[300px] xl:h-[360px] rounded-md hover:scale-105  transition duration-700' src={anime.images.jpg.large_image_url} alt="" />
-
-              <h1 className='text-white text-[18px] font-semibold text-center max-sm:text-sm max-md:text-base'>{anime.title}</h1>
-            </Link>
-          </div>
-        );
-      })
-    } else {
-      return searchResult?.map((anime) => {
-        return (
-          <div className='flex' key={anime.mal_id}>
-            <Link to={`/anime/${anime.mal_id}`}>
-            <img className='h-[290px] w-[250px] md:h-[330px] md:w-[270px] lg:h-[350px] lg:w-[300px] xl:h-[360px] rounded-md hover:scale-105  transition duration-700' src={anime.images.jpg.large_image_url} alt="" />
-              <h1 className='text-white text-[18px] font-semibold text-center max-sm:text-sm max-md:text-base'>{anime.title}</h1>
-            </Link>
-          </div>
-        );
-      })
-    }
+    return isSearch || rendered !== 'popular' ? renderAnimeList(searchResult) : renderAnimeList(popularAnime);
   }
 
   return (

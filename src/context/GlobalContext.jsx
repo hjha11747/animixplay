@@ -72,7 +72,7 @@ export const GlobalContextProvider = ({ children }) => {
     };
 
     // FETCH UPCOMING ANIME
-    const getUpcomingAnime = async (maxPages = 3) => {
+    const getUpcomingAnime = async (maxPages = 2) => {
         dispatch({ type: LOADING });
         let allAnime = [];
         try {
@@ -93,7 +93,7 @@ export const GlobalContextProvider = ({ children }) => {
     
 
     // FETCH AIRING ANIME  getAiringAnime
-    const getAiringAnime = async (maxPages = 3) => {
+    const getAiringAnime = async (maxPages = 2) => {
         dispatch({ type: LOADING });
         let allAnime = [];
         try {
@@ -115,7 +115,7 @@ export const GlobalContextProvider = ({ children }) => {
 
     // FETCH POPULAR ANIME
 // FETCH POPULAR ANIME from Multiple Pages
-const getPopularAnime = async (maxPages = 3) => {
+const getPopularAnime = async (maxPages = 2) => {
     dispatch({ type: LOADING });
     let allAnime = [];
     try {
@@ -137,7 +137,7 @@ const getPopularAnime = async (maxPages = 3) => {
 
     // SEARCH ANIME
 // Fetch SEARCH RESULTS from Multiple Pages
-const searchAnime = async (searchQuery, maxPages = 3) => {
+const searchAnime = async (searchQuery, maxPages = 2) => {
     dispatch({ type: LOADING });
     let allAnime = [];
     try {
@@ -157,8 +157,10 @@ const searchAnime = async (searchQuery, maxPages = 3) => {
 };
 
 
+
+
     useEffect(() => {
-        getPopularAnime(2);
+        getPopularAnime(1);
     }, []);
 
 
