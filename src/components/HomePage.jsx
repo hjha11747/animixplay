@@ -38,6 +38,9 @@ function HomePage() {
 
     const toggleSearchBar = () => {
         setSearchBar(!searchBar);
+        if (!searchBar) {
+            handleChange({ target: { value: '' } });
+        }
     }
 
     const clearSearch = () => {
@@ -46,13 +49,16 @@ function HomePage() {
 
     return (
         <header>
+
             <div className=' max-large:block max-w-full flex justify-between  large:p-4 max-large:px-1 max-sm:px-3 text-black bg-gray-800 sticky top-[-2px] px-2 z-50'>
                 <div onClick={() => {
                     setRendered('popular');
                     getPopularAnime()
-                }} className=" font-body text-slate-300  text-3xl font-semibold ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[22px] max-large:pt-5  max-lg:inline-block max-small-phones:pt-1">
+                }} className=" font-body text-slate-300  text-3xl font-semibold ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[32px] max-large:pt-5  max-lg:inline-block max-small-phones:pt-1">
                     Animix<span className='text-indigo-700'>Watch</span>
                 </div>
+
+
                 <div className=''>
                     <div className="flex justify-between gap-11 text-cyan-200 font-medium max-xl:gap-7 max-xl:text-base max-[900px]:hidden">
                         <div className={`hover:text-cyan-600 ${rendered === 'popular' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
@@ -70,24 +76,28 @@ function HomePage() {
                         <div className={`hover:text-cyan-600 ${rendered === 'wishlist' ? 'text-cyan-600' : 'text-cyan-200 '}`}>
                             <button onClick={() => { setRendered('wishlist'); }}>WATCHLIST</button>
                         </div>
+               
 
-                        <div >
-                            <form action="" className="" onSubmit={handleSubmit}>
+                        
+                            <form action="" onSubmit={handleSubmit}>
                                 <div className="border-[3px] border-slate-500 rounded-xl text-black">
                                     <input
-                                        className='h-8 pl-2 bg-transparent text-cyan-600'
+                                        className='h-8 pl-2 bg-transparent text-cyan-600 outline-none border-none'
                                         type="text"
+                                        autoComplete='off'
                                         placeholder='search'
                                         value={search}
                                         onChange={handleChange}
                                     />
-                                            <button onClick={clearSearch} type="button" className="text-slate-400 mr-2">
-                                                <X size={18} />
-                                            </button>
+                                    {search && (
+                                        <button onClick={clearSearch} type="button" className="text-slate-400 mr-2">
+                                            <X size={18} />
+                                        </button>
+                                    )}
                                 </div>
                             </form>
+                    
 
-                        </div>
                     </div>
 
                     <div className='flex justify-center'>
@@ -96,11 +106,15 @@ function HomePage() {
                                 <form action="" className="" onSubmit={handleSubmit}>
                                     <div className="border-[3px] border-slate-500 rounded-xl text-black">
                                         <input
-                                            className=' pl-2 bg-transparent text-cyan-600'
+                                            className=' pl-2 bg-transparent text-cyan-600
+                                            outline-none
+                                            border-none
+                                            '
                                             type="text"
                                             placeholder='search'
                                             value={search}
                                             onChange={handleChange}
+
                                         />
 
                                         {search && (
@@ -157,5 +171,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
-
