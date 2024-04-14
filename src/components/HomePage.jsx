@@ -8,7 +8,7 @@ import Wishlist from './Watchlist';
 
 function HomePage() {
     const { handleSubmit, search, handleChange, getAiringAnime, getPopularAnime, getUpcomingAnime } = useGlobalContext();
-    const [rendered, setRendered] = useState('popular');
+    const [rendered, setRendered] = useState("popular");
 
 
     const switchComponent = () => {

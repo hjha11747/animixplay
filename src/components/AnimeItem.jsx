@@ -56,7 +56,7 @@ const AnimeItem = () => {
     }, [id]);
 
 
-    const { aired, synopsis, title, images, trailer, popularity, rank, score, source, status, year, rating, episodes, genres } = anime
+    const { aired, synopsis, title, images, popularity, rank, score, source, status, year, rating, episodes, genres } = anime
     
 
 
