@@ -6,11 +6,11 @@ function Upcoming({ rendered }) {
     const { upcomingAnime, isSearch, searchResult } = useGlobalContext();
 
     const renderAnimeList = (animeList) => {
-        // Use a Set to track unique IDs to avoid duplicates
+     
         const seenIds = new Set();
         return animeList?.filter(anime => {
             if (seenIds.has(anime.mal_id)) {
-                return false; // Skip if we've already seen this ID
+                return false;
             }
             seenIds.add(anime.mal_id);
             return true;

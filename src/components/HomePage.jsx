@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Popular from './Popular'
 import { X, Menu, Search } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
 import { useGlobalContext } from '../context/GlobalContext'
 import Upcoming from './Upcoming';
 import Airing from './Airing';
@@ -10,7 +9,6 @@ import Wishlist from './Watchlist';
 function HomePage() {
     const { handleSubmit, search, handleChange, getAiringAnime, getPopularAnime, getUpcomingAnime } = useGlobalContext();
     const [rendered, setRendered] = useState('popular');
-    const location = useNavigate();
 
 
     const switchComponent = () => {

@@ -1,5 +1,3 @@
-
-import './App.css';
 import AnimeItem from './components/AnimeItem';
 import HomePage from './components/HomePage';
 import Popular from './components/Popular';

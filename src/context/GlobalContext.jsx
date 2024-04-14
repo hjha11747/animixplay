@@ -105,8 +105,7 @@ export const GlobalContextProvider = ({ children }) => {
             dispatch({ type, payload: [] });
         }
     };
-        // SEARCH ANIME
-// Fetch SEARCH RESULTS from Multiple Pages
+        
 const searchAnime = async (searchQuery, maxPages = 3) => {
     dispatch({ type: LOADING });
     let allAnime = [];
@@ -133,7 +132,7 @@ const searchAnime = async (searchQuery, maxPages = 3) => {
     useEffect(() => {
         (async () => {
             await getPopularAnime();
-            await sleep(2000);  // Delay subsequent fetches to avoid hitting rate limit
+            await sleep(2000);
             await getAiringAnime();
             await sleep(2000);
             await getUpcomingAnime();
