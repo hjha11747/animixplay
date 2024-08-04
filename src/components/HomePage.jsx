@@ -53,7 +53,7 @@ function HomePage() {
                     setRendered('popular');
                     getPopularAnime()
                 }} className=" font-body text-slate-300  text-3xl font-semibold ml-10 cursor-pointer hover:text-indigo-300 max-large:ml-0 max-large:p-0 max-sm:text-[32px] max-large:pt-5  max-lg:inline-block max-small-phones:pt-1">
-                    Animix<span className='text-indigo-700'>Watch</span>
+                    Animix<span className='text-indigo-700'>Play</span>
                 </div>
 
 
